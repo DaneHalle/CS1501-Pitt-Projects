@@ -1,0 +1,42 @@
+========================================
+CS/COE 1501 Assignment Information Sheet
+----------------------------------------
+
+You must submit an information sheet with every assignment.  Also be sure
+to submit all materials following the procedures described on the
+submission procedures page.
+
+Name:  Dane Halle
+
+Lecture section:  1280
+
+Recitation day and time:  Thursday 11:00-11:50
+
+Assignment #:  1
+
+Program due date:  9/25/19
+
+Handed in date:  9/23/19
+
+Source code file name(s):
+	ac_test.java
+	Stack.java
+	DLL.java
+	Node.java
+	DLB.java
+
+
+Other file name(s) (if relevant):
+	approach.txt
+	info_sheet.txt
+
+
+Does your program run without error?:
+	None that I have found
+
+If not, what is/are the error(s) and which parts of your program run
+correctly?:
+
+
+Additional comments to the grader:
+	I hope you have a great day. 
