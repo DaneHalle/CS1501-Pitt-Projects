@@ -5,6 +5,20 @@ import java.util.InputMismatchException; import java.io.FileWriter;
 import java.io.BufferedWriter; import java.io.File;
 public class ac_test
 {
+
+    /** 
+     *  Main method for the program that does a lot. Makes empty two DLB tries.
+     *  One for dictionary and one for user_history. It then initializes some other things.
+     *  It fills the dictionary DLB with the text found in dictionary.txt. Then it makes a
+     *  File object for the user_history.txt. It attempts to fill the user DLB with the 
+     *  text found in the user_history if it should exist and then deletes the file. 
+     *  Within the while loop a lot more happens. It prompts a response from the user and
+     *  parses out what to do form there. It will end program, accept string up until the 
+     *  point the user has printed, predict words based on the prefix, and choose a word. 
+     *  After every prediction the program prints the time it took for predictions to be
+     *  found in seconds. After the user exits, the user DLB is parsed through and printed
+     *  to a new user_history.txt file.
+     */ 
 	public static void main(String[] args) throws IOException
 	{
 		Scanner in=new Scanner(System.in);
@@ -110,6 +124,7 @@ public class ac_test
                     finalPredictions=new String[5];
                     word="";
                 }else{
+                    System.out.println("Predictions:");
                     for(int a=0; a<5; a++){
                         if(finalPredictions[a]==null){break;}
                         System.out.printf("\t(%d) %-10s",(a+1), finalPredictions[a]);
@@ -131,7 +146,7 @@ public class ac_test
             while(going){
                 s=push.makeString();
                 if(push.makeString()!=null){
-                    writeFile(s);
+                    writeFile(s);   
                 }else{break;}
                 going=push.removeToNextSib();
             }
@@ -139,6 +154,9 @@ public class ac_test
         }
 	}
 
+    /** 
+     *  Reads the file and sends it to the associated DLB
+     */ 
     public static DLB readFile(String f, DLB a)
     {
         try {
@@ -157,6 +175,9 @@ public class ac_test
         return a;
     }
 
+    /** 
+     *  Prompts a response of 1 character from user. 
+     */ 
     public static String getResponse()
     {   
         String response="";
@@ -173,6 +194,9 @@ public class ac_test
         return response;
     }
 
+    /** 
+     *  Writes to the user_history.txt file
+     */ 
     public static void writeFile(String write) throws IOException
     {   
         BufferedWriter file=new BufferedWriter(new FileWriter("user_history.txt", true));

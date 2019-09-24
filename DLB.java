@@ -2,11 +2,26 @@ import java.lang.Character; import java.lang.NullPointerException;
 public class DLB
 {
     private Node first;
+
+    /** 
+     *  Initializes values
+     */  
     public DLB()
     {
         first=null;
     }
 
+    /** 
+     *  returns first
+     */  
+    public Node getFirst()
+    {
+        return first;
+    }
+
+    /** 
+     *  Using logic, puts all values of string where needed in the DLB
+     */  
     public void addTo(String in)
     {
         char[] breakdown=in.toCharArray();
@@ -40,17 +55,23 @@ public class DLB
             }
         }
         Node term=new Node('^');
-
         if(spot.getChild()==null){ 
             spot.setChild(term);
+            spot=spot.getChild();
         }else{
-            while(spot.getSibling()!=null){
+            while(spot.getSibling()!=null && spot.getInfo()!='^'){
                 spot=spot.getSibling();
             }
-            spot.setSib(term);
+            if(spot.getInfo()!='^'){
+                spot.setSib(term);
+                spot=spot.getSibling();
+            }
         }
     }
 
+    /** 
+     *  Returns String[] of predictions using stack
+     */  
     public String[] getFromPrefix(String key)
     {
         try{
@@ -74,10 +95,5 @@ public class DLB
         }catch(NullPointerException exception){
             return null;
         }
-    }
-
-    public Node getFirst()
-    {
-        return first;
     }
 }

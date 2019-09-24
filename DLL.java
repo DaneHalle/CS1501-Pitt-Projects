@@ -1,24 +1,44 @@
 import java.lang.NullPointerException;
-
 public class DLL
 {
 	private Stack tail;
+
+    /** 
+     *  Initializes values
+     */  
 	public DLL()
 	{
 		tail=null;
 	}
 
+    /** 
+     *  Initializes values
+     */  
 	public DLL(Stack in)
 	{
 		tail=in;
 	}
 
+    /** 
+     *  Initializes values
+     */  
 	public DLL(Node in)
 	{
 		Stack here=new Stack(in);
 		tail=here;
 	}
 
+    /** 
+     *  returns tail
+     */  
+	public Stack getTail()
+	{
+		return tail;
+	}
+
+    /** 
+     *  Adds value to the stack
+     */  
 	public void addToStack(Stack in)
 	{
 		if(tail==null){
@@ -29,6 +49,9 @@ public class DLL
 		}
 	}
 
+    /** 
+     *  Adds value to the stack
+     */  
 	public void addToStack(Node in)
 	{
 		Stack insert=new Stack(in);
@@ -40,6 +63,9 @@ public class DLL
 		}
 	}
 
+    /** 
+     *  Removes top value from the stack
+     */  
 	public void removeFromStack()
 	{
 		if(tail!=null && tail.getPrevious()!=null){
@@ -51,6 +77,9 @@ public class DLL
 		}
 	}
 
+    /** 
+     *  Checks to see if tail has sibling, if not, removes to previous node and repeats
+     */  
 	public boolean removeToNextSib()
 	{	
 		try{
@@ -74,6 +103,9 @@ public class DLL
 		}
 	}
 
+    /** 
+     *  returns head of stack
+     */  
 	public Stack getHead()
 	{
 		Stack spot=tail;
@@ -83,6 +115,9 @@ public class DLL
 		return spot;
 	}
 
+    /** 
+     *  Makes a string based on the stack
+     */  
 	public String makeString()
 	{
 		try{
@@ -102,6 +137,9 @@ public class DLL
 		}
 	}
 
+    /** 
+     *  Fills String[] with predictions
+     */  
 	public String[] makePredictions(String prefix)
 	{
 		String endfix=""; boolean worked=true;
