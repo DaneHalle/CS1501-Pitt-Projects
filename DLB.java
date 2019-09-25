@@ -1,5 +1,5 @@
 import java.lang.Character; import java.lang.NullPointerException;
-public class DLB
+public class DLB 
 {
     private Node first;
 
@@ -20,14 +20,13 @@ public class DLB
     }
 
     /** 
-     *  Using logic, puts all values of string where needed in the DLB
+     *  Using logic, puts all values of string where needed in the DLB trie
      */  
     public void addTo(String in)
     {
         char[] breakdown=in.toCharArray();
         Node n=new Node(breakdown[0]);
-        boolean childNull=false;
-        int j=0;
+        boolean childNull=false; int j=0;
         if(first==null){
             first=n; j++; childNull=true;
         }
@@ -55,7 +54,7 @@ public class DLB
             }
         }
         Node term=new Node('^');
-        if(spot.getChild()==null){ 
+        if(spot.getChild()==null && spot.getInfo()!='^'){ 
             spot.setChild(term);
             spot=spot.getChild();
         }else{
@@ -66,6 +65,35 @@ public class DLB
                 spot.setSib(term);
                 spot=spot.getSibling();
             }
+        }
+        spot.addFreq();
+    }
+
+    /** 
+     *  Sets up the stack for user predictions 
+     */ 
+    public String[] getSmartPrefix(String key)
+    {
+        try{
+            Node spot=first;
+            char[] breakdown=key.toCharArray();
+            for(int i=0; i<breakdown.length; i++){
+                while(spot!=null && breakdown[i]!=spot.getInfo()){
+                    spot=spot.getSibling();
+                }
+                if(breakdown[i]==spot.getInfo()){
+                    spot=spot.getChild();
+                }else{break;}
+            }
+            Node temp=spot;
+            DLL predict=new DLL(temp);
+            while(temp.getChild()!=null){
+                temp=temp.getChild(); predict.addToStack(temp);
+            }
+            String[] predictions=predict.makeSmartPredictions(key);
+            return predictions;
+        }catch(NullPointerException exception){
+            return null;
         }
     }
 

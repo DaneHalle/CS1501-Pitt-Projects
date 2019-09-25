@@ -1,4 +1,6 @@
 import java.lang.NullPointerException;
+import java.util.PriorityQueue;
+import java.util.Comparator;
 public class DLL
 {
 	private Stack tail;
@@ -34,6 +36,14 @@ public class DLL
 	public Stack getTail()
 	{
 		return tail;
+	}
+
+    /**
+     *  returns frequency
+     */ 
+	public int getFreq()
+	{
+		return tail.getFreq();
 	}
 
     /** 
@@ -127,9 +137,7 @@ public class DLL
 				if(head.getInfo().getInfo()!='^'){
 					output+=head.getInfo().getInfo();
 					head=head.getNext();
-				}else{
-					break;
-				}
+				}else{break;}
 			}
 			return output;
 		}catch(NullPointerException exception){
@@ -155,5 +163,72 @@ public class DLL
 			}
 		}
 		return output;
+	}
+
+    /** 
+     *  The prediction for user that utilizes a PriorityQueue
+     */ 
+	public String[] makeSmartPredictions(String prefix)
+	{
+		String endfix=""; boolean worked=true; boolean pri=true;
+		String[] output=new String[5]; Smart spot; Integer freq=0; 
+		PriorityQueue<Smart> priority=new PriorityQueue<Smart>(6, new WordComparator());
+		while(worked && pri && priority.size()<5 && tail!=null){
+			if((Integer)tail.getFreq()==null){
+				break;
+			}
+			freq=tail.getFreq(); endfix=makeString();
+			if(endfix==null){
+				break;
+			}else{
+				pri=priority.add(new Smart((prefix+endfix), freq));
+				worked=removeToNextSib();
+			}
+		}
+
+		Smart[] priorityPredict=priority.toArray(new Smart[5]);
+		for(int i=0; i<priorityPredict.length && priorityPredict[i]!=null; i++){
+			output[i]=priorityPredict[i].getWord();
+		}
+		return output;
+	}
+}
+
+/** 
+ *  A class to add a new compare method
+ */ 
+class WordComparator implements Comparator<Smart> 
+{
+	public int compare(Smart a, Smart b)
+	{
+		if (a.getFreq()<b.getFreq()){
+            return 1;
+        }else if (a.getFreq()>b.getFreq()){ 
+            return -1;
+        } 
+        return 0; 
+        
+	}
+}
+
+/** 
+ *  Used for predictions using a PriorityQueue
+ */ 
+class Smart 
+{
+	private String word; private int frequency;
+	public Smart(String inWord, int freq)
+	{
+		word=inWord; frequency=freq;
+	}
+
+	public String getWord()
+	{
+		return word;
+	}
+
+	public int getFreq()
+	{
+		return frequency;
 	}
 }

@@ -1,13 +1,14 @@
-public class Node
+public class Node 
 {
-    private char info; private Node sibling; private Node child;
-
+    private Node sibling; private Node child;
+    private char info; private int frequency;
+    
     /** 
      *  Initializes values
      */  
     public Node(char infoIn)
     {
-        info=infoIn; sibling=null; child=null;
+        info=infoIn; sibling=null; child=null; frequency=0;
     }
 
     /** 
@@ -33,6 +34,14 @@ public class Node
     {
         return info;
     }
+
+    /**
+     *  returns frequency
+     */ 
+    public int getFreq()
+    {
+        return frequency;
+    }
     
     /** 
      *  Sets sibling to value
@@ -48,5 +57,13 @@ public class Node
     public void setChild(Node inChild)
     {
     	child=inChild;
+    }
+
+    /**
+     *  incriments frequency
+     */ 
+    public void addFreq()
+    {
+        frequency++;
     }
 }

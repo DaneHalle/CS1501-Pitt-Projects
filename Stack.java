@@ -1,13 +1,14 @@
 public class Stack
 {
 	private Node value; private Stack next; private Stack previous;
+	private int freq;
 
     /** 
      *  Initializes values
      */  
 	public Stack(Node in)
 	{
-		value=in; next=null; previous=null;
+		value=in; next=null; previous=null; freq=in.getFreq();
 	}
 
     /** 
@@ -15,7 +16,7 @@ public class Stack
      */  
 	public Stack(Node inVal, Stack inNext, Stack inPrev)
 	{
-		value=inVal; next=inNext; previous=inPrev;
+		value=inVal; next=inNext; previous=inPrev; freq=inVal.getFreq();
 	}
 
     /** 
@@ -40,6 +41,14 @@ public class Stack
 	public Stack getPrevious()
 	{
 		return previous;
+	}
+
+    /**
+     *  returns frequency
+     */ 
+	public int getFreq()
+	{
+		return freq;
 	}
 
     /** 
