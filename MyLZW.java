@@ -1,18 +1,17 @@
 /*************************************************************************
  *  Compilation:  javac MyLZW.java
  *  Execution:    java MyLZW - mode < input.txt > outputFile  (compress)
- *  Execution:    java MyLZW + < input.txt > outputFIle  (expand)
+ *  Execution:    java MyLZW + < input.txt > outputFile  (expand)
  *  Dependencies: BinaryIn.java BinaryOut.java
  *************************************************************************/
-import java.lang.Math;
-public class MyLZW {
-    private static int R=256;       // number of input chars
+public class MyLZW 
+{
+    private static final int R=256;       // number of input chars
     private static int W=9;         // codeword width
     private static int L=512;       // number of codewords = 2^W
     private static char mode='n';   // sets defualt mode as 'nothing'
-    private static final int MAX_WIDTH=16; private static final int MIN_SIZE=9;
-    private static int notCompressed=0; private static int compressed=0;
-    private static double oldRatio=0.0; private static double newRatio=0.0;
+    private static int notCompressed=0;     private static int compressed=0;
+    private static double oldRatio=0.0;     private static double newRatio=0.0;
 
     public static TST<Integer> initializeTST()
     {
@@ -26,8 +25,8 @@ public class MyLZW {
     public static void incrementWidth()
     {
         W++;
-        if(W>MAX_WIDTH){
-            W=MAX_WIDTH;
+        if(W>16){
+            W=16;
         }else{
             L+=L;
         }
@@ -35,20 +34,21 @@ public class MyLZW {
 
     public static int resetThings()
     {
-        W=MIN_SIZE; L=(int)Math.pow(2,W);
+        W=9;     L=512;
         return R+1;
     }
 
     public static void updateRatioParts(int length)
     {
-        notCompressed+=length*16; compressed+=W;
+        notCompressed+=length*16;   compressed+=W;
     }
 
-    public static void compress() { 
+    public static void compress() 
+    { 
         String input=BinaryStdIn.readString();
         BinaryStdOut.write(mode); //Writes mode character to the file
-        TST<Integer> st=initializeTST(); int code=R+1;
-        while (input.length() > 0) {
+        TST<Integer> st=initializeTST();    int code=R+1;
+        while (input.length()>0) {
             String s=st.longestPrefixOf(input);  // Find max prefix match s.
             BinaryStdOut.write(st.get(s), W);      // Print s's encoding.
             updateRatioParts(s.length());
@@ -88,7 +88,7 @@ public class MyLZW {
 
     public static String[] initializeArray()
     {
-        String[] output=new String[(int)Math.pow(2, 16)]; int i;
+        String[] output=new String[65536];   int i;
         for(i=0; i<R; i++){
             output[i]=""+(char)i;
         }
@@ -96,7 +96,8 @@ public class MyLZW {
         return output;
     }
 
-    public static void expand() {
+    public static void expand() 
+    {
         String[] st=initializeArray(); int i=R+1;
         mode=BinaryStdIn.readChar(); //Reads mode character from file and sets it to mode
         int codeword=BinaryStdIn.readInt(W);
@@ -122,7 +123,6 @@ public class MyLZW {
                             if(oldRatio/newRatio>1.1){
                                 st=initializeArray();
                                 i=resetThings();
-                                oldRatio=0.0;
                             }
                             break;
                         default: //Modes not specifided will default to do nothing
@@ -145,7 +145,8 @@ public class MyLZW {
         BinaryStdOut.close();
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args)
+    {
         if(args.length>=2 && args[1].length()==1 && ((args[1].equals("m") || args[1].equals("n") 
             || args[1].equals("r")))){
             mode=args[1].charAt(0);

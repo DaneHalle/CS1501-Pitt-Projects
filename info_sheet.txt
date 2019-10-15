@@ -10,13 +10,13 @@ Name:  Dane Halle
 
 Lecture section:  1280
 
-Recitation day and time:  Thursday 11:00-1:50
+Recitation day and time:  Thursday 11:00-11:50
 
 Assignment #:  2
 
 Program due date:  10/13/19 @ 11:59PM
 
-Handed in date:  10/8/19
+Handed in date:  10/9/19
 
 Source code file name(s):
 MyLZW.java
