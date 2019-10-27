@@ -16,7 +16,7 @@ public class apartments
 		in=in.substring(in.indexOf(':')+1);
 		zipCode=Integer.parseInt(findColon(in));
 		in=in.substring(in.indexOf(':')+1);
-		rent=Integer.parseInt(findColon(in));
+		rent=Double.valueOf(findColon(in));
 		in=in.substring(in.indexOf(':')+1);
 		sqFeet=Integer.parseInt(findColon(in));
 
@@ -28,6 +28,11 @@ public class apartments
 			return in;
 		}
 		return in.substring(0,in.indexOf(':'));
+	}
+
+	public void updateRent(double in)
+	{
+		rent=in;
 	}
 
 	public String getStreetAddress()
@@ -63,5 +68,10 @@ public class apartments
 	public void print()
 	{
 		System.out.println(streetAddress+" "+apartmentNumber+" "+city+" "+zipCode+" "+rent+" "+sqFeet);
+	}
+
+	public String printString()
+	{
+		return ""+streetAddress+" "+apartmentNumber+" "+city+" "+zipCode+" "+rent+" "+sqFeet;
 	}
 }
