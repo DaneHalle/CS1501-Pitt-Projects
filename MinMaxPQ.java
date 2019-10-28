@@ -22,11 +22,6 @@ public class MinMaxPQ
 		return n==0;
 	}
 
-	public boolean isMin()
-	{
-		return min;
-	}
-
 	public int getSize()
 	{
 		return n;
@@ -62,11 +57,6 @@ public class MinMaxPQ
 
 	public apartments deleteTop()
 	{
-		if(n==1){
-			apartments top=queue[1];
-			queue=new apartments[1];
-			return top;
-		}
 		if(min){
 			if(isEmpty()) throw new NoSuchElementException("Priority queue underflow");
 	        apartments top=queue[1];
@@ -91,7 +81,7 @@ public class MinMaxPQ
 	public int contains(String street, String apartment, int zip)
 	{
 		String gottenStreet; String gottenApt; int gottenZip;
-		for(int i=1; i<n; i++){
+		for(int i=1; i<=n; i++){
 			gottenStreet=queue[i].getStreetAddress();
 			gottenApt=queue[i].getApartmentNumber();
 			gottenZip=queue[i].getZipCode();

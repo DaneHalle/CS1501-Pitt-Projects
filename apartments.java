@@ -32,7 +32,9 @@ public class apartments
 
 	public void updateRent(double in)
 	{
-		rent=in;
+		if(in>0){
+			rent=in;
+		}
 	}
 
 	public String getStreetAddress()
@@ -67,11 +69,16 @@ public class apartments
 
 	public void print()
 	{
-		System.out.println(streetAddress+" "+apartmentNumber+" "+city+" "+zipCode+" "+rent+" "+sqFeet);
+		System.out.println(printString());
 	}
 
 	public String printString()
 	{
 		return ""+streetAddress+" "+apartmentNumber+" "+city+" "+zipCode+" "+rent+" "+sqFeet;
+	}
+
+	public String revertToString()
+	{
+		return ""+streetAddress+":"+apartmentNumber+":"+city+":"+zipCode+":"+rent+":"+sqFeet;
 	}
 }

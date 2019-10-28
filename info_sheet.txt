@@ -16,7 +16,7 @@ Assignment #:  3
 
 Program due date:  10/29/19
 
-Handed in date:  10/27/19
+Handed in date:  10/28/19
 
 Source code file name(s):
 AptTracker.java
@@ -33,7 +33,9 @@ If not, what is/are the error(s) and which parts of your program run
 correctly?:
 
 Additional comments to the grader: 
-
+Added write to a file functionality with a provided filename. 
+- WILL OVERWRITE ANY FILE WITH THE SAME NAME PROVIDED
+- If you want to test with the updated, simply replace apartments.txt with it or write to "apartments.txt"
 
 
 
