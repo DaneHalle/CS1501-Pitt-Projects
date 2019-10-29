@@ -19,7 +19,6 @@ public class apartments
 		rent=Double.valueOf(findColon(in));
 		in=in.substring(in.indexOf(':')+1);
 		sqFeet=Integer.parseInt(findColon(in));
-
 	}
 
 	private String findColon(String in)
@@ -67,12 +66,7 @@ public class apartments
 		return sqFeet;
 	}
 
-	public void print()
-	{
-		System.out.println(printString());
-	}
-
-	public String printString()
+	public String toString()
 	{
 		return ""+streetAddress+" "+apartmentNumber+" "+city+" "+zipCode+" "+rent+" "+sqFeet;
 	}
