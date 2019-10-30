@@ -1,0 +1,27 @@
+====================================
+CS/COE 1501 Assignment Documentation
+------------------------------------
+	I decided to utilize book provided code (MinPQ.java and MaxPQ.java) as a basis for implementing a PQ of apartments. From what I can tell these utilize a O(log(n)) runtime for the insert/remove/retrieve methods. I first combined and altered the two code files into a cut down version called MinMaxPQ.java. this takes out a lot of the boiler-plate that the book code had. I added three methods, contains() and two forms of remove(). contains() will utilize a BFS to check if an apartment is in the queue based on a given Street, Apartment#, and Zip and then return the location if found. This is utilized by my remove() methods. The remove() method essentially does the same as MinPQ and MaxPQ does for delMin/delMax methods respectively except the tree would start at location found from contains() instead of the root. The runtime for contains() can be O(n) should the apartment we are looking for is at the very bottom right of the theoretical tree or at location n in the PQ. 
+	Halle's Method of Madness (HMM) is how I approached the city dependent PQs. This method is a form of hashing and key generation that is similar to Horner's method but a tad crazier as I wanted to ensure extremely unique keys. How I did the table was by having an array of size 6661 store an object cityHash() which holds a string and two PQs for rent and square feet respectively. Given a city in the form of a string, Halle's Method of Madness will add the even characters and multiply the odd characters to a running total. Then I modulate all of them by the hash table size (6661 in this case). I wanted to ensure that the odds of a collision will be very small which is the reasoning for this method. I then wanted to ensure even more that a second collision will be even less likely so I utilized double hashing. I add (total%757)+1 to the index first gotten until an open space is found. My reasoning for choosing such bizzare numbers are mainly because they are both prime. I also believe that this could be perfect hashing as, according to quora.com, there are less than 5000 cities in the world and my hash table is larger than that. The runtime in best case for hashing is O(1) and worst case is O(n). However, due to the uniqueness of each key developed and such a large hash function with double hashing, it will almost never be O(n) unless the entire hash table is filled up. 
+	As for memory requirements, I will list each for each class:
+apartments.java -> O(1) I think 
+	3 strings of size 8 * (int) ((((# chars) * 2) + 45) / 8) in terms of bytes
+	2 ints of size 4 bytes
+	1 double of size 8 bytes
+RentComparator/SqFeetComparator -> O(1)
+	Unknown size
+MinMaxPQ.java -> O(n)
+	1 boolean of size 8 byte
+	1 array of apartments of varying size (initializes a size of 1)
+	1 int of size 4 bytes
+	1 comparator of some size
+cityHash -> O(2n+1)=O(n)
+	1 string of size 8 * (int) ((((# chars) * 2) + 45) / 8) in terms of bytes
+	2 PQs of size determined by MinMaxPQ.java
+AcTracker.java -> O(2n+6661)=O(2n+1)=O(n)
+	2 PQs of size determined by MinMaxPQ.java
+	1 array of length 6661 * size of cityHash
+
+Halle's Method of Madness (HMM)™️. Makes anyone that hears about the logic behind it go HMM. 
+	
+	

@@ -1,0 +1,46 @@
+========================================
+CS/COE 1501 Assignment Information Sheet
+----------------------------------------
+
+You must submit an information sheet with every assignment.  Also be sure
+to submit all materials following the procedures described on the
+submission procedures page.
+
+Name:  Dane Halle
+
+Lecture section:  1280
+
+Recitation day and time:  Thursday 11:00-11:50
+
+Assignment #:  3
+
+Program due date:  10/29/19
+
+Handed in date:  10/29/19
+
+Source code file name(s):
+AptTracker.java
+apartments.java
+MinMaxPQ.java
+
+Other file name(s) (if relevant):
+documentation.txt
+
+Does your program run without error?:
+To my knowledge. Does have warnings.
+
+If not, what is/are the error(s) and which parts of your program run
+correctly?:
+Warnings are from book provided code but code does still compile and run perfectly fine.
+
+Additional comments to the grader: 
+Added write to a file functionality with a provided filename. 
+	- WILL OVERWRITE ANY FILE WITH THE SAME NAME PROVIDED IF IT SHOULD EXIST
+	- If you want to test with the updated, simply replace apartments.txt with it or write to "apartments.txt"
+Halle's Method of Madness (HMM)™️. Makes anyone that hears about the logic behind it go HMM.
+
+
+
+
+
+
