@@ -1,28 +1,19 @@
-import java.util.Scanner;		
-import java.util.Queue;		
-import java.util.LinkedList;
-import java.io.FileReader;		
-import java.io.IOException;
-import java.io.FileNotFoundException;	
+import java.util.Scanner;   import java.util.Queue;     import java.util.LinkedList;
+import java.io.FileReader;	import java.io.IOException; import java.io.FileNotFoundException;	
 import java.lang.NumberFormatException;
 public class NetworkAnalysis
 {
 	private static Scanner in=new Scanner(System.in);
-	private static NetworkList list;
-    private static Dijkstra paths;
-    private static Prims lowestLatencyMST;
-    private static final String RESET="\u001B[0m";
-	private static final String RED="\033[1;31m";
-	private static final String GREEN="\u001B[32m";
-	private static final String YELLOW="\u001B[33m";
-	private static final String PURPLE="\u001B[35m";
-	private static final String CYAN="\u001B[36m";
+	private static NetworkList list;   private static Dijkstra paths;
+    private static final String RESET="\u001B[0m";      private static final String RED="\033[1;31m";
+	private static final String GREEN="\u001B[32m";     private static final String YELLOW="\u001B[33m";
+	private static final String PURPLE="\u001B[35m";    private static final String CYAN="\u001B[36m";
     private static final String GREEN_UNDER="\033[4;32m";
-    private static final String YELLOW_UNDER="\033[4;33m";
     private static final String GREEN_BOLD="\033[1;32m";
+    private static final String YELLOW_UNDER="\033[4;33m";
 	public static void main(String[] args)
 	{
-		list=null;
+		list=null;    Prims lowestLatencyMST=null;
 		if(args.length>0){
 			readFile(args[0]);
 			if(list==null){
@@ -30,8 +21,7 @@ public class NetworkAnalysis
 				System.out.println("format of file are correct."+RESET);
 				return;
 			}
-            paths=new Dijkstra(list);
-			lowestLatencyMST=new Prims(list);
+            paths=new Dijkstra(list);	lowestLatencyMST=new Prims(list);
 		}else{
 			System.out.println(RED+"You need to give a file in order to work"+RESET);
 			return;
@@ -60,7 +50,7 @@ public class NetworkAnalysis
 	    				System.out.print(lowestLatencyMST);
 						break;
 					case 4: //Points fail and still remain connected
-	                	checkIfFail();
+	                	checkTwoVerticies();
 						break;
 					case 5: //exit
 						System.out.println(GREEN_BOLD+"Goodbye"+RESET);
@@ -91,15 +81,15 @@ public class NetworkAnalysis
             }
 	        if(start>=0&&end>=0&&start<list.getV()&&end<list.getV()){
 	            if(paths.hasPath(start,end)){
-	                double minBandwidth=Double.POSITIVE_INFINITY;
-	                for(NetworkData edge : paths.path(start,end)){
-	                	if(minBandwidth>edge.getBandwidth()){
-	                		minBandwidth=edge.getBandwidth();
+	                double minBand=Double.POSITIVE_INFINITY;
+	                for(NetworkData edge:paths.path(start,end)){
+	                	if(minBand>edge.getBandwidth()){
+	                		minBand=edge.getBandwidth();
 	                	}
 	                    System.out.println(edge);
 	                }
 	                System.out.print(PURPLE+"Bandwidth available across this ");
-	                	System.out.println("path: "+CYAN+(int)minBandwidth+RESET);
+	                	System.out.println("path: "+CYAN+(int)minBand+RESET);
 	            }else{
 	                System.out.println(RED+"No path found between those verticies."+RESET);
 	            }
@@ -116,33 +106,38 @@ public class NetworkAnalysis
     	boolean[] visited=new boolean[list.getV()]; 
         Queue<Integer> queue=new LinkedList<Integer>();
         visited[0]=true;	queue.add(0);
-        int ct=1;
         while(!queue.isEmpty()){
-            for(NetworkData edge : list.getAtV(queue.remove())){
+            for(NetworkData edge:list.getAtV(queue.remove())){
                 if(!visited[edge.getEnd()]&&edge.isCopper()){
                     visited[edge.getEnd()]=true;	queue.add(edge.getEnd());
-                    ct++;
                 }
             }
         }
-        if(ct==list.getV()){
+        boolean isCopper=true;
+        for(int i=0; i<visited.length; i++){
+            if(!visited[i]){
+                isCopper=false;
+                break;
+            }
+        }
+        if(isCopper){
             System.out.println(PURPLE+"This graph is copper-only connected."+RESET);
         }else{
             System.out.println(PURPLE+"This graph is not copper-only connected."+RESET);
         }
     }
 
-	private static void checkIfFail() 
+	private static void checkTwoVerticies() 
 	{
         if(list.getV()<=3){
-            System.out.print(PURPLE+"There are only "+CYAN+list.getV()+PURPLE+" vertices. Removing ");
+            System.out.print(PURPLE+"There are only "+CYAN+list.getV()+PURPLE+" vertices. Removing any ");
             	System.out.println("two would cause the graph to be disconnected"+RESET);
             return;
         }
         boolean doesNotFail=true;
         for(int start=0; start<list.getV(); start++){
             for(int end=start+1; end<list.getV(); end++){
-                if(!checkIfFail(start, end)){
+                if(!verify(start, end)){
                     doesNotFail=false;
                     System.out.print(PURPLE+"It will not be connected if vertex ["+CYAN+start+PURPLE+"] ");
                     	System.out.println("and ["+CYAN+end+PURPLE+"] are removed."+RESET);
@@ -155,37 +150,40 @@ public class NetworkAnalysis
         }
     }
 
-    private static boolean checkIfFail(int startVertex, int endVetex) 
+    private static boolean verify(int startVertex, int endVetex) 
     {
         boolean[] visited=new boolean[list.getV()];
         Queue<Integer> queue=new LinkedList<Integer>();
         visited[startVertex]=true;	visited[endVetex]=true;
         int start=0;
-        if(start==startVertex){ 
-        	start=1;
-        }
-        if(start==endVetex){ 
-        	start=2;
+        if(startVertex==0&&endVetex==1){
+            start=3;
+        }else if(startVertex==0){
+            start=1;
         }
         visited[start]=true;	queue.add(start);
-        int ct=3;
         while(!queue.isEmpty()){
-            for(NetworkData edge : list.getAtV(queue.remove())){
+            for(NetworkData edge:list.getAtV(queue.remove())){
                 if(!visited[edge.getEnd()]){
                     visited[edge.getEnd()]=true;	queue.add(edge.getEnd());
-                    ct++;
                 }
             }
         }
-        return ct==list.getV();
+        boolean failed=true;
+        for(int i=0; i<visited.length; i++){
+            if(!visited[i]){
+                failed=false;
+                break;
+            }
+        }
+        return failed;
     }
 
 	private static void readFile(String f)
     {
         try {
             FileReader reader=new FileReader(f);
-            Scanner in=new Scanner(reader);
-            String s;
+            Scanner in=new Scanner(reader);	String s;
             list=new NetworkList(Integer.parseInt(in.nextLine()));
             int max=list.getV();
             while(in.hasNextLine()){

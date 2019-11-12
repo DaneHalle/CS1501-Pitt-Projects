@@ -2,12 +2,9 @@ import java.util.LinkedList;
 public class NetworkData
 {
 	private int startPoint, endPoint, bandwidth, length;
-	private double latency;
-	private boolean copper;
-    private static final String RESET="\u001B[0m";
-	private static final String RED="\033[1;31m";
-	private static final String PURPLE="\u001B[35m";
-	private static final String CYAN="\u001B[36m";
+	private double latency;		private boolean copper;
+    private static final String RESET="\u001B[0m";		private static final String RED="\033[1;31m";
+	private static final String PURPLE="\u001B[35m";	private static final String CYAN="\u001B[36m";
 	public NetworkData(String insert, boolean flip, int Max)
 	{
 		String[] toInsert=insert.split(" ");
@@ -32,6 +29,7 @@ public class NetworkData
         }
 	}
 
+	//Verifys that every part within this data is valid 
 	private void verify(int Max)
 	{
 		if(startPoint<0||endPoint<0||startPoint>=Max||endPoint>=Max){
@@ -45,36 +43,43 @@ public class NetworkData
         }
 	}
 
+	//returns startPoint
 	public int getStart()
 	{
 		return startPoint;
 	}
 
+	//returns endPoint
 	public int getEnd()
 	{
 		return endPoint;
 	}
 
+	//returns bandwidth
 	public int getBandwidth()
 	{
 		return bandwidth;
 	}
 
+	//returns length
 	public int getLength()
 	{
 		return length;
 	}
 
+	//returns copper
 	public boolean isCopper()
 	{
 		return copper;
 	}
 
+	//returns latency
 	public double getLatency()
 	{
 		return latency;
 	}
 
+	//Returns other vertex than in
 	public int getOther(int in) 
 	{
 		if(in==startPoint){
@@ -88,32 +93,38 @@ public class NetworkData
 
 	public String toString() 
 	{
-		String type="Copper";
+		String type=CYAN+"Copper"+PURPLE;
 		if(!copper){
-			type="Optical";
+			type=CYAN+"Optical"+PURPLE;
 		}
-		String out=""+PURPLE+"["+CYAN+startPoint+PURPLE+"] <--> ["+CYAN+endPoint+PURPLE+"] with ";
-			out+=CYAN+type+PURPLE+" wire. Bandwidth of "+CYAN+bandwidth+PURPLE+" Mb/s."+RESET;
+		String out=""+PURPLE+"["+CYAN+startPoint+PURPLE+"] ‹--› ["+CYAN+endPoint+PURPLE+"] with ";
+			out+=CYAN+type+PURPLE+" wire. Bandwidth of "+bandwidth+" Mb/s."+RESET;
         return out;
     }
 }
 
 class NetworkList
 {
-	private int V, E;
+	private int V;
     private LinkedList<NetworkData>[] adjList;
-    private static final String RESET="\u001B[0m";
-	private static final String RED="\033[1;31m";
+    private static final String RESET="\u001B[0m";	private static final String RED="\033[1;31m";
     @SuppressWarnings("unchecked")
     public NetworkList(int in) 
     {
-        V=in;	E=0;
+        V=in;
         adjList=(LinkedList<NetworkData>[])(new LinkedList[V]);
         for(int v=0; v<V; v++){
             adjList[v]=new LinkedList<NetworkData>();
         }
     }
 
+    //returns V
+    public int getV() 
+    { 
+    	return V; 
+    }
+
+    //Adds edge to the list
     public void addEdge(NetworkData edge) 
     {
         int v=edge.getStart();	int w=edge.getEnd();
@@ -123,9 +134,9 @@ class NetworkList
         	throw new IllegalArgumentException(RED+"Vertex is not between 0 and "+(V-1)+RESET);
         }
         adjList[v].add(edge);	adjList[w].add(edge);
-        E++;
     }
 
+    //returns the LinkedList at index v
     public Iterable<NetworkData> getAtV(int v) 
     {
         if (v<0||v>=V){
@@ -134,25 +145,17 @@ class NetworkList
         return adjList[v];
     }
 
+    //Returns an Iterable<NetworkData> of all the edges within the adjacenty list
     public Iterable<NetworkData> getEdges() 
     {
         LinkedList<NetworkData> list=new LinkedList<NetworkData>();
         for(int v=0; v<V; v++){
-            for(NetworkData e : getAtV(v)){
+            for(NetworkData e:getAtV(v)){
                 if(e.getEnd()!=v){
                     list.add(e);
                 }
             }
         }
         return list;
-    }
-
-    public int getV() 
-    { 
-    	return V; 
-    }
-    public int getE() 
-    { 
-    	return E; 
     }
 }

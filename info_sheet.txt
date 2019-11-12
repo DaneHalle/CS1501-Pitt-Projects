@@ -16,7 +16,7 @@ Assignment #:  4
 
 Program due date:  11/12/19
 
-Handed in date:  11/10/19
+Handed in date:  11/12/19
 
 Source code file name(s):
 NetworkAnalysis.java
@@ -24,11 +24,6 @@ NetworkData.java
 Dijkstra.java
 
 Other file name(s) (if relevant):
-network_data1.txt -> Copper connected, Given
-network_data2.txt -> Not copper connected, Given
-network_data3.txt -> Not copper connected
-network_data4.txt -> Shouldn't be accepted as proper format
-network_data5.txt -> Copper connected, Tests lowest latency path and MST
 
 Does your program run without error?:
 To my knowledge

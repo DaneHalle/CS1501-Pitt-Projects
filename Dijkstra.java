@@ -5,8 +5,7 @@ import java.util.NoSuchElementException;
 public class Dijkstra 
 {
     private DijkstraSP[] all;
-    private static final String RESET="\u001B[0m";
-    private static final String RED="\033[1;31m";
+    private static final String RESET="\u001B[0m";  private static final String RED="\033[1;31m";
     /**
      * Computes a shortest paths tree from each vertex to to every other vertex in
      * the edge-weighted digraph {@code G}.
@@ -80,8 +79,7 @@ class DijkstraSP
     private double[] distTo;        // distTo[v]=distance  of shortest s->v path
     private NetworkData[] edgeTo;   // edgeTo[v]=last edge on shortest s->v path
     private IndexMinPQ<Double> pq;  // priority queue of vertices
-    private static final String RESET="\u001B[0m";
-    private static final String RED="\033[1;31m";
+    private static final String RESET="\u001B[0m";  private static final String RED="\033[1;31m";
     /**
      * Computes a shortest-paths tree from the source vertex {@code s} to every other
      * vertex in the edge-weighted digraph {@code G}.
@@ -92,7 +90,7 @@ class DijkstraSP
      */
     public DijkstraSP(NetworkList G, int s)
     {
-        for(NetworkData e : G.getEdges()){
+        for(NetworkData e:G.getEdges()){
             if(e.getLatency()<0)
                 throw new IllegalArgumentException(RED+"edge "+e+" has negative weight"+RESET);
         }
@@ -106,7 +104,7 @@ class DijkstraSP
         pq.insert(s, distTo[s]);
         while(!pq.isEmpty()){
             int v=pq.delMin();
-            for(NetworkData e : G.getAtV(v))
+            for(NetworkData e:G.getAtV(v))
                 relax(e);
         }
         // check optimality conditions
@@ -175,7 +173,7 @@ class DijkstraSP
     private boolean check(NetworkList G, int s)
     {
         // check that edge weights are nonnegative
-        for(NetworkData e : G.getEdges()){
+        for(NetworkData e:G.getEdges()){
             if(e.getLatency()<0){
                 System.err.println(RED+"negative edge weight detected"+RESET);
                 return false;
@@ -195,7 +193,7 @@ class DijkstraSP
         }
         // check that all edges e=v->w satisfy distTo[w]<=distTo[v]+e.weight()
         for(int v=0; v<G.getV(); v++){
-            for(NetworkData e : G.getAtV(v)){
+            for(NetworkData e:G.getAtV(v)){
                 int w=e.getEnd();
                 if(distTo[v]+e.getLatency()<distTo[w]){
                     System.err.println(RED+"edge "+e+" not relaxed"+RESET);
@@ -233,8 +231,7 @@ class IndexMinPQ<Key extends Comparable<Key>>
     private int[] pq;        // binary heap using 1-based indexing
     private int[] qp;        // inverse of pq - qp[pq[i]]=pq[qp[i]]=i
     private Key[] keys;      // keys[i]=priority of i
-    private static final String RESET="\u001B[0m";
-    private static final String RED="\033[1;31m";
+    private static final String RESET="\u001B[0m";  private static final String RED="\033[1;31m";
     /**
      * Initializes an empty indexed priority queue with indices between {@code 0}
      * and {@code maxN - 1}.
@@ -374,13 +371,11 @@ class Prims
     private double[] latencyTo;      // latencyTo[v]=getTime of shortest such edge
     private boolean[] marked;     // marked[v]=true if v on tree, false otherwise
     private IndexMinPQ<Double> pq;
-    private static final String RESET="\u001B[0m";
-    private static final String RED="\033[1;31m";
-    private static final String PURPLE="\u001B[35m";
-    private static final String CYAN="\u001B[36m";
+    private static final String RESET="\u001B[0m";      private static final String RED="\033[1;31m";
+    private static final String PURPLE="\u001B[35m";    private static final String CYAN="\u001B[36m";
     /**
-     * Compute a minimum spanning tree (or forest) of an edge-getTimed graph.
-     * @param NetList the edge-getTimeed graph
+     * Compute a minimum spanning tree (or forest) of an edge-getTimed NetworkList.
+     * @param NetList the edge-getTimeed NetworkList
      */
     public Prims(NetworkList NetList) 
     {
@@ -397,8 +392,7 @@ class Prims
     // run Prim's algorithm in NetworkList NetList, starting from vertex s
     private void prim(NetworkList NetList, int s) 
     {
-        latencyTo[s]=0.0;
-        pq.insert(s, latencyTo[s]);
+        latencyTo[s]=0.0;   pq.insert(s, latencyTo[s]);
         while(!pq.isEmpty()){
             int v=pq.delMin();  scan(NetList, v);
         }
@@ -408,14 +402,13 @@ class Prims
     private void scan(NetworkList NetList, int v) 
     {
         marked[v]=true;
-        for(NetworkData edge : NetList.getAtV(v)) 
+        for(NetworkData edge:NetList.getAtV(v)) 
         {
             int w=edge.getOther(v);
             if(marked[w]) continue;         // v-w is obsolete edge
             if(edge.getLatency()<latencyTo[w]){
-                latencyTo[w]=edge.getLatency();
-                edgeTo[w]=edge;
-                if(pq.contains(w)) pq.decreaseKey(w, latencyTo[w]);
+                latencyTo[w]=edge.getLatency();     edgeTo[w]=edge;
+                if(pq.contains(w))  pq.decreaseKey(w, latencyTo[w]);
                 else                pq.insert(w, latencyTo[w]);
             }
         }
@@ -427,15 +420,17 @@ class Prims
         String s="";
         for(int i=0; i<edgeTo.length; i++){
             NetworkData edge=edgeTo[i];
-            if(edge==null)
-                continue;
-            int v1=edge.getStart();    int v2=edge.getOther(v1);
-            int via=v1;
+            if(edge==null)  continue;
+            int v1=edge.getStart();    int v2=edge.getOther(v1);    int via=v1;
             if(v1==i)
                 via=v2;
             double latency=latencyTo[i];
-            s+=PURPLE+"["+CYAN+i+PURPLE+"] <--> ["+CYAN+via+PURPLE+"] with a latency ";
-                s+="of "+CYAN+latency+PURPLE+" ns.\n";
+            String wire=CYAN+"Copper"+PURPLE;
+            if(!edge.isCopper()){
+                wire=CYAN+"Optical"+PURPLE;
+            }
+            s+=PURPLE+"["+CYAN+i+PURPLE+"] ‹--› ["+CYAN+via+PURPLE+"] with "+wire+" wire.";
+                s+=" Latency is "+CYAN+latency+PURPLE+" ns.\n";
         }
         return s;
     }
