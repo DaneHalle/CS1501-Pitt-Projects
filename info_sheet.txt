@@ -1,0 +1,42 @@
+========================================
+CS/COE 1501 Assignment Information Sheet
+----------------------------------------
+
+You must submit an information sheet with every assignment.  Also be sure
+to submit all materials following the procedures described on the
+submission procedures page.
+
+Name:  Dane halle
+
+Lecture section:  1280
+
+Recitation day and time:  Thursday 11:00-11:50
+
+Assignment #:  4
+
+Program due date:  11/12/19
+
+Handed in date:  11/12/19
+
+Source code file name(s):
+NetworkAnalysis.java
+NetworkData.java
+Dijkstra.java
+
+Other file name(s) (if relevant):
+
+Does your program run without error?:
+To my knowledge
+
+If not, what is/are the error(s) and which parts of your program run
+correctly?:
+
+Additional comments to the grader:
+When displaying latency of a wire, it is displayed in nanoseconds as displaying in seconds would display a very small decimal. Latency has been floored at the 100's place decimal. 
+
+
+
+
+
+
+
